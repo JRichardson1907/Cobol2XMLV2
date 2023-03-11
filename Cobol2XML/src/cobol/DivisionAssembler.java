@@ -19,7 +19,7 @@
  *
  */
  
-package src.cobol;
+package cobol;
 
 import parse.*;
 import parse.tokens.*;

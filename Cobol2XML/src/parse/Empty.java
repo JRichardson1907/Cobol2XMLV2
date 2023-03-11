@@ -19,7 +19,7 @@
  *
  */
  
-package src.parse;
+package parse;
 
 import java.util.*;
 public class Empty extends Parser {

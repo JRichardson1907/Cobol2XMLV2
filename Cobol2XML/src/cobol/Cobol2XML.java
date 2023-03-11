@@ -19,7 +19,7 @@
  *
  */
 
-package src.cobol;
+package cobol;
 
 import java.io.*;
 import java.util.logging.Level;
@@ -29,7 +29,8 @@ import parse.*;
 import parse.tokens.*;
 import xmlwriter.*;
 
-public class Cobol2XML {
+public class Cobol2XML 
+{
 	/**
 	 * Recognise some basic constructs in a COBOL source code file.
 	 * And then produce a well-formed XML file with the data identified
@@ -51,7 +52,8 @@ public class Cobol2XML {
 
     
     
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception 
+    {
 		/* The first command line parameter is used to get the cobol source file namee
 		 * In case you are not sure if you are pointing toward the right file, print out the filename
 		 * like this...
@@ -62,9 +64,13 @@ public class Cobol2XML {
 		 * InputStream is = new FileInputStream("C:\\Users\\sgs442\\eclipse-workspace\\CobolParser1\\base.cbl")
 		 */
 
+    	System.out.println("arg[0]"+ args[0]);
+    	System.out.println("arg[1]"+ args[1]);
+    	
         try {
             MyLogger.setup();
-        } catch (IOException e) {
+        } catch (IOException e) 
+        {
             e.printStackTrace();
             throw new RuntimeException("Problems with creating the log files");
         }
@@ -101,13 +107,16 @@ public class Cobol2XML {
 				} catch (Exception e) {
 					e.printStackTrace(); // BufferedReader
 				} finally {
-					if(r != null) {
+					if(r != null) 
+					{
 						r.close(); 
 					}
 				} // finally BufferedReader
-		  } catch (Exception e) {
+		  } catch (Exception e) 
+		{
 		    e.printStackTrace(); // FileInputStream
-		  } finally {
+		  } finally 
+		{
 			xmlp.writeFile(args[1]);
 			if(is != null) {
 				is.close(); 

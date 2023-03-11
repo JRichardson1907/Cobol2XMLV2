@@ -19,7 +19,7 @@
  *
  */
  
-package src.utensil;
+package utensil;
 public class LinearCalculator {
 	double xFrom;
 	double xTo;

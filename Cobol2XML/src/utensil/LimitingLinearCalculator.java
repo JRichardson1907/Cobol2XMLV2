@@ -19,7 +19,7 @@
  *
  */
  
-package src.utensil;
+package utensil;
 public class LimitingLinearCalculator extends LinearCalculator {
 /**
  * Create a LimitingLinearCalculator from known points on two scales.

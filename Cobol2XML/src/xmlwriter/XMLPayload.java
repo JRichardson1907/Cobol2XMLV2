@@ -17,7 +17,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *
- */package src.xmlwriter;
+ */package xmlwriter;
 
 
 import cobol.*;
@@ -39,44 +39,77 @@ import org.w3c.dom.Element;
 import java.util.logging.Logger;
 
 
+import org.w3c.dom.Attr;
 
-
-public class XMLPayload {
+public class XMLPayload 
+{
 	Document doc;
 	Element rootElement;
 	private final static Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 	
-	public XMLPayload() {
+	
+	public XMLPayload() 
+	{
 		try {
 		DocumentBuilderFactory dbFactory =
-		         DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory.newInstance();
 		dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, ""); // XML parsers should not be vulnerable to XXE attacks
 		dbFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, ""); // XML parsers should not be vulnerable to XXE attacks
 		DocumentBuilder dBuilder = 
-		            dbFactory.newDocumentBuilder();
+		dbFactory.newDocumentBuilder();
 		doc = dBuilder.newDocument();
 		
 		 // root element
         rootElement = doc.createElement("cobol");
         doc.appendChild(rootElement);
 		
-		 } catch (Exception e) {
+		 } catch (Exception e) 
+		{
 	         e.printStackTrace();
 	     }
 		
 	}
 	
 	
-	public void addElements(Cobol c) {
+	public void addElements(Cobol c) 
+	{
+		
+		/*
+		 * add constantName element
+		 */
+		String constantName = c.getConstantName();
+		if (constantName != null) 
+		{
+		this.addConstantValueElement( constantName,
+		c.getConstantValue(), c.getLineNumber() );
+		//System.out.println("Got Section");
+		// Add contents of procedure division
+		} else 
+		{
+		//System.out.println("Comment Line null");
+		}
+		
+		/*
+		 * add commentLine element
+		 */
+		String commentLine = c.getCommentLine();
+		if (commentLine != null) {
+			this.addCommentLineElement(commentLine);
+		} else
+		{
+			//System.out.println("Comment Line Null");
+		}
+		
 		/*
 		 *  add sectionName element
 		 */		
 		String sectionName = c.getSectionName();
-		if (sectionName != null) {
+		if (sectionName != null) 
+		{
 			this.addSectionElement( sectionName );
-			
 			// Add contents of procedure division
-		} else {
+		} else 
+		{
 			// Section Name null
 		}
 		
@@ -88,7 +121,8 @@ public class XMLPayload {
 			this.addDivisionElement( divisionName );
 			// Got Division
 			// Add contents of procedure division
-		} else {
+		} else 
+		{
 			// Division Name null
 		}
 		
@@ -96,7 +130,8 @@ public class XMLPayload {
 		 *  add ProgramID element
 		 */		
 		String programIDName = c.getProgram_ID();
-		if (programIDName != null) {
+		if (programIDName != null) 
+		{
 			this.addProgram_IDElement( programIDName );
 			// Got ProgramID
 			// Add contents of procedure division
@@ -131,21 +166,68 @@ public class XMLPayload {
 
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	void addConstantValueElement(String constantName,double constantValue, int lineNumber)
+	{
+		
+		if(constantName != null) 
+		{
+			Element cobolname = doc.createElement("Constant");
+			// insert name of constant into XML file
+			Element constID = doc.createElement("Constant");
+			Attr attrType2 = doc.createAttribute("Name" );
+			attrType2.setValue( constantName );
+			constID.setAttributeNode(attrType2);
+			cobolname.appendChild(constID);
+			
+			// insert line number of constant into XML file
+			Element lineID = doc.createElement(constantName);
+			Attr attrType = doc.createAttribute("Line_Number" );
+			attrType.setValue( Integer.toString(lineNumber) );
+			lineID.setAttributeNode(attrType);
+			cobolname.appendChild(lineID);
+			
+			// insert value of constant into XML file
+			Element constantID = doc.createElement(constantName);
+			Attr attrType1 = doc.createAttribute("Value" );
+			attrType1.setValue( Double.toString(constantValue) );
+			constantID.setAttributeNode(attrType1);
+			cobolname.appendChild(constantID);
+			
+			rootElement.appendChild(cobolname);
+			
+		}	
+	}
+	
 
- 	void addProgram_IDElement(String stringElement) {
+ 	void addProgram_IDElement(String stringElement) 
+ 	{
 		//  Program ID element
 		
-		if(stringElement != null) {
+		if(stringElement != null) 
+		{
 			Element cobolname = doc.createElement("Program-ID");
 			cobolname.appendChild(doc.createTextNode(stringElement));
 			rootElement.appendChild(cobolname);
 		}
 	}
  	
-	void addCommentLineElement(String stringElement) {
+ 	
+	void addCommentLineElement(String stringElement) 
+	{
 		//  Comment Line element
 		
-		if(stringElement != null) {
+		if(stringElement != null) 
+		{
 			Element cobolname = doc.createElement("comment");
 			cobolname.appendChild(doc.createTextNode(stringElement));
 			rootElement.appendChild(cobolname);
@@ -154,29 +236,37 @@ public class XMLPayload {
  	
  	
  	
- 	void addSectionElement(String stringElement) {
+ 	void addSectionElement(String stringElement) 
+ 	{
 		//  Section element
 		
-		if(stringElement != null) {
+		if(stringElement != null) 
+		{
 			Element cobolname = doc.createElement("section");
 			cobolname.appendChild(doc.createTextNode(stringElement));
 			rootElement.appendChild(cobolname);
 		}
 	}
  	
- 	void addDivisionElement(String stringElement) {
+ 	
+ 	void addDivisionElement(String stringElement) 
+ 	{
 		//  Division element
-		if(stringElement != null) {
+		if(stringElement != null) 
+		{
 			Element cobolname = doc.createElement("division");
 			cobolname.appendChild(doc.createTextNode(stringElement));
 			rootElement.appendChild(cobolname);
 		}
 	}
 	
-	void addDayDateWrittenElement(int intElement) {
+ 	
+	void addDayDateWrittenElement(int intElement) 
+	{
 		//  DayDateWritten element
 		
-		if(intElement != 0) {
+		if(intElement != 0) 
+		{
 			Element cobolname = doc.createElement("day-date-written");
 			String s = "" + intElement;
 			cobolname.appendChild(doc.createTextNode(s));
@@ -184,20 +274,26 @@ public class XMLPayload {
 		}
 	}
  	
-	void addMonthDateWrittenElement(String stringElement) {
+	
+	void addMonthDateWrittenElement(String stringElement) 
+	{
 		//  MonthWritten element
 		
-		if(stringElement != null) {
+		if(stringElement != null) 
+		{
 			Element cobolname = doc.createElement("month-date-written");
 			cobolname.appendChild(doc.createTextNode(stringElement));
 			rootElement.appendChild(cobolname);
 		}
 	}
 
-	void addYearDateWrittenElement(int intElement) {
+	
+	void addYearDateWrittenElement(int intElement) 
+	{
 		//  YearDateWritten element
 		
-		if(intElement != 0) {
+		if(intElement != 0) 
+		{
 			Element cobolname = doc.createElement("year-date-written");
 			String s = "" + intElement;
 			cobolname.appendChild(doc.createTextNode(s));
@@ -205,7 +301,9 @@ public class XMLPayload {
 		}
 	}
 	
-	public void writeFile(String filename) {
+	
+	public void writeFile(String filename) 
+	{
 		try {
 		// write the content into xml file
 		// insert debug printf "WriteFile Filename: " + filename
@@ -233,7 +331,8 @@ public class XMLPayload {
         
         String xmlString = writer.getBuffer().toString();
         LOGGER.info(xmlString);
-		 } catch (Exception e) {
+		 } catch (Exception e) 
+		{
 	         e.printStackTrace();
 	     }
 	}

@@ -18,7 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  *
  */
-package src.cobol;
+package cobol;
 
 import parse.Alternation;
 import parse.Empty;
@@ -30,21 +30,24 @@ import parse.tokens.Symbol;
 import parse.tokens.Tokenizer;
 import parse.tokens.Word;
 
-public class CobolParser {
+public class CobolParser 
+{
 	/**
-	 * Return a parser that will recognize the selected COBOL source code constructs:
+	 * Return a parser that will recognise the selected COBOL source code constructs:
 	 * 
 	 * 
 	 * This parser creates a <code>COBOL</code> object
 	 * as an assembly's target.
 	 *
-	 * @return a parser that will recognize and build a 
+	 * @return a parser that will recognise and build a 
 	 *         <object>COBOL</object> from a source code file.
 	 */
-	public Parser cobol() {
+	public Parser cobol() 
+	{
 		Alternation a = new Alternation();
 		
 		Symbol fullstop = new Symbol('.');
+		
 		fullstop.discard();
 		
 		a.add( ProgramID() );
@@ -55,9 +58,51 @@ public class CobolParser {
 		
 		a.add( DateWritten() );
 		
+		a.add(constantValue());
+		
+		a.add(Comment() );
+		
 		a.add(new Empty());
+
 		return a;
 	}
+	
+	/**
+	 * Return a parser that will recognise the grammar:
+	 * 
+	 * 	 ***--- comment text
+	 */
+	protected Parser Comment()
+	{
+		Sequence s = new Sequence();
+		s.add(new Symbol("*"));
+		s.add(new Symbol("*"));
+		s.add(new Symbol("*"));
+		s.add(new Symbol("-"));
+		s.add(new Symbol("-"));
+		s.add(new Symbol("-"));
+		s.add(new Word().setAssembler(new CommentAssembler()));
+		return s;
+	}
+	
+	
+	/**
+	 * Return a parser that will recognise the grammar:
+	 * 
+	 *    <line number> <constant name> "value" <constant value>
+	 *
+	 */
+	private Parser constantValue() 
+	{
+		Sequence s = new Sequence();
+		s.add(new Num());
+		s.add(new Word());
+		s.add(new CaselessLiteral("value"));
+		s.add(new Num());
+		s.setAssembler (new ConstantValueAssembler());
+		return s;
+	}
+
 	
 	/*
 	 * Return a parser that will recognize the grammar:

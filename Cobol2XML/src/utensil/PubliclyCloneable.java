@@ -19,7 +19,7 @@
  *
  */
  
-package src.utensil;
+package utensil;
 public interface PubliclyCloneable extends Cloneable {
 
 /**

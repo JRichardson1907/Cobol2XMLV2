@@ -19,44 +19,50 @@
  *
  */
  
-package src.parse;
+package parse;
 
 import java.util.*;
 
-public class Alternation extends CollectionParser {
+public class Alternation extends CollectionParser 
+{
 
 /**
  * Constructs a nameless alternation.
  */
-public Alternation() {
+public Alternation() 
+{
 }
 /**
  * Constructs an alternation with the given name.
  *
  * @param    name    a name to be known by
  */
-public Alternation(String name) {
+public Alternation(String name) 
+{
 	super(name);
 }
 /**
  * A convenient way to construct a CollectionParser with the
  * given parser.
  */
-public Alternation(Parser p) {
+public Alternation(Parser p) 
+{
 	super(p);
 }
 /**
  * A convenient way to construct a CollectionParser with the
  * given parsers.
  */
-public Alternation(Parser p1, Parser p2) {
+public Alternation(Parser p1, Parser p2) 
+{
 	super(p1, p2);
 }
 /**
  * A convenient way to construct a CollectionParser with the
  * given parsers.
  */
-public Alternation(Parser p1, Parser p2, Parser p3) {
+public Alternation(Parser p1, Parser p2, Parser p3) 
+{
 	super(p1, p2, p3);
 }
 /**
@@ -67,7 +73,8 @@ public Alternation(
 	Parser p1, 
 	Parser p2, 
 	Parser p3, 
-	Parser p4) {
+	Parser p4) 
+{
 	super(p1, p2, p3, p4);
 }
 /**
@@ -78,7 +85,8 @@ public Alternation(
  *
  * @param   Vector   a collection of previously visited parsers
  */
-public void accept(ParserVisitor pv, ArrayList<Assembly> visited) {
+public void accept(ParserVisitor pv, ArrayList<Assembly> visited) 
+{
 	pv.visitAlternation(this, visited);
 }
 /**
@@ -92,13 +100,15 @@ public void accept(ParserVisitor pv, ArrayList<Assembly> visited) {
  * @param   Vector   a vector of assemblies to match against
  *
  */
-public ArrayList<Assembly> match(ArrayList<Assembly> in) {
+public ArrayList<Assembly> match(ArrayList<Assembly> in) 
+{
 	ArrayList<Assembly> out = new ArrayList<Assembly>();
 	// Enumeration<Parser> e = subparsers.elements()
 	// Creating object of type Enumeration<Parser> 
     Enumeration<Parser> e = Collections.enumeration(subparsers); 
 
-	while (e.hasMoreElements()) {
+	while (e.hasMoreElements()) 
+	{
 		Parser p = e.nextElement();
 		add(out, p.matchAndAssemble(in));
 	}
@@ -108,8 +118,10 @@ public ArrayList<Assembly> match(ArrayList<Assembly> in) {
  * Create a random collection of elements that correspond to
  * this alternation.
  */
-protected ArrayList<?> randomExpansion(int maxDepth, int depth) {
-	if (depth >= maxDepth) {
+protected ArrayList<?> randomExpansion(int maxDepth, int depth) 
+{
+	if (depth >= maxDepth) 
+	{
 		return randomSettle(maxDepth, depth);
 	}
 	double n = (double) subparsers.size();
