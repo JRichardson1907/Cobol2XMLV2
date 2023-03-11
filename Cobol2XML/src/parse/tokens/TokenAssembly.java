@@ -1,4 +1,4 @@
-package parse.tokens;
+package src.parse.tokens;
 
 import parse.Assembly;
 

@@ -19,7 +19,7 @@
  *
  */
 
-package cobol;
+package src.cobol;
 
 import utensil.*;
 

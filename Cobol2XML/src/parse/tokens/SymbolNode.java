@@ -19,7 +19,7 @@
  *
  */
  
-package parse.tokens;
+package src.parse.tokens;
 
 import java.util.*;
 import java.io.*;

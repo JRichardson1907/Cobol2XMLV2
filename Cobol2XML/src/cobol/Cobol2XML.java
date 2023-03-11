@@ -19,7 +19,7 @@
  *
  */
 
-package cobol;
+package src.cobol;
 
 import java.io.*;
 import java.util.logging.Level;

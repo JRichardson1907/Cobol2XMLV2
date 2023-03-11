@@ -19,7 +19,7 @@
  *
  */
  
-package parse.tokens;
+package src.parse.tokens;
  public class TokenType {
 	 protected String name;
 /**

@@ -19,7 +19,7 @@
  *
  */
  
-package parse;
+package src.parse;
 
 import java.util.*;
 import java.util.logging.Logger;

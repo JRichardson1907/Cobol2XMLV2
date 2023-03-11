@@ -19,7 +19,7 @@
  *
  */
  
-package parse.tokens;
+package src.parse.tokens;
 public class CaselessLiteral extends Literal {
 /**
  * Constructs a literal that will match the specified string,

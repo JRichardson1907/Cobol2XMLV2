@@ -19,7 +19,7 @@
  *
  */
  
-package utensil;
+package src.utensil;
 
 import java.io.*;
 
